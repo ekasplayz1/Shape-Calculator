@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shape Calculator</title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --primary-bg: linear-gradient(135deg, #0094ff 0%, #5ee578 100%);
+      --page-bg: linear-gradient(135deg, #d9c933 0%, #76767e 100%);
+    }
+
+    html,body {
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      background: var(--page-bg);
+      font-family: 'Poppins', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h1.title {
+      font-family: 'Great Vibes', cursive;
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      margin: 25px 0 5px;
+      letter-spacing: 2px;
+    }
+
+    p.subtitle {
+      margin: 0 0 35px;
+      font-style: italic;
+      font-weight: 600;
+    }
+
+    .calculator {
+      width: 90%;
+      max-width: 650px;
+      background: var(--primary-bg);
+      border: 4px solid #000;
+      border-radius: 12px;
+      padding: 20px 25px 35px;
+      box-sizing: border-box;
+    }
+
+    label {
+      font-weight: 600;
+      margin-top: 8px;
+    }
+
+    select, input[type="number"] {
+      width: 100%;
+      padding: 8px 10px;
+      font-size: 1rem;
+      border: 2px solid #000;
+      border-radius: 6px;
+      box-sizing: border-box;
+    }
+
+    button {
+      display: inline-block;
+      margin-top: 15px;
+      padding: 10px 22px;
+      font-size: 1rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 25px;
+      background: #000;
+      color: #fff;
+      cursor: pointer;
+      transition: transform 0.15s ease-in-out;
+    }
+
+    button:hover { transform: scale(1.05); }
+
+    #answerBox {
+      margin-top: 20px;
+      text-align: right;
+    }
+
+    #answer {
+      font-size: clamp(2rem, 6vw, 3.5rem);
+      font-weight: 800;
+      color: #000;
+    }
+
+    /* Footer */
+    h2.thanks {
+      font-family: 'Great Vibes', cursive;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      margin: 40px 0 20px;
+    }
+
+    /* Simple utility */
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+  <h1 class="title">Shape Calculator</h1>
+  <p class="subtitle">- Made fully by Ekaspreet Singh Grover -</p>
+
+  <div class="calculator">
+    <label for="shapeSelect">Choose a Shape</label>
+    <select id="shapeSelect">
+      <option value="">-- Select Shape --</option>
+      <option value="circle">Circle</option>
+      <option value="triangle">Triangle</option>
+      <option value="rectangle">Rectangle</option>
+      <option value="square">Square</option>
+      <option value="parallelogram">Parallelogram</option>
+    </select>
+
+    <div id="formArea"><!-- forms will be injected here --></div>
+
+    <div id="answerBox" class="hidden">
+      <span id="answer"></span>
+    </div>
+  </div>
+
+  <h2 class="thanks">Thank you 😊</h2>
+
+  <script>
+    const shapeSelect = document.getElementById('shapeSelect');
+    const formArea = document.getElementById('formArea');
+    const answerBox = document.getElementById('answerBox');
+    const answerEl = document.getElementById('answer');
+
+    shapeSelect.addEventListener('change', renderForm);
+
+    function clearForm() {
+      formArea.innerHTML = '';
+      answerBox.classList.add('hidden');
+    }
+
+    function renderForm() {
+      clearForm();
+      const shape = shapeSelect.value;
+      if (!shape) return;
+
+      let html = '';
+      switch (shape) {
+        case 'circle':
+          html = `
+            <label>Known Value (fill one):</label>
+            <input type="number" id="radius" placeholder="Radius" step="any" />
+            <input type="number" id="diameter" placeholder="Diameter" step="any" />
+            <input type="number" id="area" placeholder="Area" step="any" />
+            <input type="number" id="circumference" placeholder="Circumference" step="any" />
+            <label for="unit">Unit</label>
+            ${unitSelectHtml()}
+            <button type="button" onclick="calcCircle()">Calculate</button>`;
+          break;
+        case 'triangle':
+          html = `
+            <label for="base">Base</label>
+            <input type="number" id="base" step="any" />
+            <label for="height">Height</label>
+            <input type="number" id="height" step="any" />
+            <label for="unit">Unit</label>
+            ${unitSelectHtml()}
+            <button type="button" onclick="calcTriangle()">Calculate</button>`;
+          break;
+        case 'rectangle':
+          html = `
+            <label for="length">Length</label>
+            <input type="number" id="length" step="any" />
+            <label for="width">Width</label>
+            <input type="number" id="width" step="any" />
+            <label for="unit">Unit</label>
+            ${unitSelectHtml()}
+            <button type="button" onclick="calcRectangle()">Calculate</button>`;
+          break;
+        case 'square':
+          html = `
+            <label for="side">Side Length</label>
+            <input type="number" id="side" step="any" />
+            <label for="unit">Unit</label>
+            ${unitSelectHtml()}
+            <button type="button" onclick="calcSquare()">Calculate</button>`;
+          break;
+        case 'parallelogram':
+          html = `
+            <label for="baseP">Base</label>
+            <input type="number" id="baseP" step="any" />
+            <label for="heightP">Height</label>
+            <input type="number" id="heightP" step="any" />
+            <label for="unit">Unit</label>
+            ${unitSelectHtml()}
+            <button type="button" onclick="calcParallelogram()">Calculate</button>`;
+          break;
+      }
+      formArea.innerHTML = html;
+    }
+
+    function unitSelectHtml() {
+      return `<select id="unit">
+        <option value="cm">cm</option>
+        <option value="mm">mm</option>
+        <option value="m">m</option>
+        <option value="km">km</option>
+        <option value="ft">ft</option>
+        <option value="in">in</option>
+        <option value="kn">kn</option>
+        <option value="nm">nm</option>
+      </select>`;
+    }
+
+    /* Calculation functions */
+
+    function calcCircle() {
+      const unit = document.getElementById('unit').value;
+      const r = parseFloat(document.getElementById('radius').value);
+      const d = parseFloat(document.getElementById('diameter').value);
+      const a = parseFloat(document.getElementById('area').value);
+      const c = parseFloat(document.getElementById('circumference').value);
+
+      let radius = r;
+      if (!radius && d) radius = d / 2;
+      if (!radius && a) radius = Math.sqrt(a / Math.PI);
+      if (!radius && c) radius = c / (2 * Math.PI);
+      if (!radius) {
+        alert('Please enter at least one number.');
+        return;
+      }
+      const diameter = radius * 2;
+      const area = Math.PI * radius * radius;
+      const circum = 2 * Math.PI * radius;
+
+      const msg = `Radius: ${radius.toFixed(2)} ${unit}  |  Diameter: ${diameter.toFixed(2)} ${unit}  |  Area: ${area.toFixed(2)} ${unit}²  |  Circumference: ${circum.toFixed(2)} ${unit}`;
+      showAnswer(msg);
+    }
+
+    function calcTriangle() {
+      const unit = document.getElementById('unit').value;
+      const base = parseFloat(document.getElementById('base').value);
+      const height = parseFloat(document.getElementById('height').value);
+      if (isNaN(base) || isNaN(height)) return alert('Fill both numbers');
+      const area = 0.5 * base * height;
+      showAnswer(`Area: ${area.toFixed(2)} ${unit}²`);
+    }
+
+    function calcRectangle() {
+      const unit = document.getElementById('unit').value;
+      const length = parseFloat(document.getElementById('length').value);
+      const width = parseFloat(document.getElementById('width').value);
+      if (isNaN(length) || isNaN(width)) return alert('Fill both numbers');
+      const area = length * width;
+      const peri = 2 * (length + width);
+      showAnswer(`Area: ${area.toFixed(2)} ${unit}²  |  Perimeter: ${peri.toFixed(2)} ${unit}`);
+    }
+
+    function calcSquare() {
+      const unit = document.getElementById('unit').value;
+      const side = parseFloat(document.getElementById('side').value);
+      if (isNaN(side)) return alert('Enter side length');
+      const area = side * side;
+      const peri = 4 * side;
+      showAnswer(`Area: ${area.toFixed(2)} ${unit}²  |  Perimeter: ${peri.toFixed(2)} ${unit}`);
+    }
+
+    function calcParallelogram() {
+      const unit = document.getElementById('unit').value;
+      const baseP = parseFloat(document.getElementById('baseP').value);
+      const heightP = parseFloat(document.getElementById('heightP').value);
+      if (isNaN(baseP) || isNaN(heightP)) return alert('Fill both numbers');
+      const area = baseP * heightP;
+      showAnswer(`Area: ${area.toFixed(2)} ${unit}²`);
+    }
+
+    function showAnswer(text) {
+      answerEl.textContent = text;
+      answerBox.classList.remove('hidden');
+    }
+  </script>
+</body>
+</html>
