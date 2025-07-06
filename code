@@ -23,17 +23,28 @@
       align-items: center;
     }
 
-    h1.title {
+    h1#title {
       font-family: 'Great Vibes', cursive;
       font-size: clamp(2.5rem, 6vw, 4.5rem);
       margin: 25px 0 5px;
       letter-spacing: 2px;
     }
 
-    p.subtitle {
-      margin: 0 0 35px;
+    p#subtitle {
+      margin: 0 0 25px;
       font-style: italic;
       font-weight: 600;
+    }
+
+    .lang-wrapper {
+      margin-bottom: 15px;
+    }
+
+    #langSelect {
+      padding: 6px 10px;
+      font-size: 1rem;
+      border: 2px solid #000;
+      border-radius: 6px;
     }
 
     .calculator {
@@ -88,45 +99,99 @@
     }
 
     /* Footer */
-    h2.thanks {
+    h2#thanks {
       font-family: 'Great Vibes', cursive;
       font-size: clamp(2rem, 5vw, 3.5rem);
       margin: 40px 0 20px;
     }
 
-    /* Simple utility */
     .hidden { display: none; }
   </style>
 </head>
 <body>
-  <h1 class="title">Shape Calculator</h1>
-  <p class="subtitle">- Made fully by Ekaspreet Singh Grover -</p>
+  <h1 id="title">Shape Calculator</h1>
+  <p id="subtitle">- Made fully by Ekaspreet Singh Grover -</p>
+
+  <div class="lang-wrapper">
+    <select id="langSelect">
+      <option value="en">English</option>
+      <option value="fr">Français</option>
+      <option value="it">Italiano</option>
+      <option value="pa">ਪੰਜਾਬੀ</option>
+      <option value="hi">हिन्दी</option>
+      <option value="de">Deutsch</option>
+      <option value="es">Español</option>
+      <option value="ko">한국어</option>
+      <option value="ja">日本語</option>
+      <option value="zh-CN">中文(简体)</option>
+      <option value="zh-HK">中文(繁體)</option>
+    </select>
+  </div>
 
   <div class="calculator">
-    <label for="shapeSelect">Choose a Shape</label>
-    <select id="shapeSelect">
-      <option value="">-- Select Shape --</option>
-      <option value="circle">Circle</option>
-      <option value="triangle">Triangle</option>
-      <option value="rectangle">Rectangle</option>
-      <option value="square">Square</option>
-      <option value="parallelogram">Parallelogram</option>
-    </select>
+    <label id="chooseShapeLabel" for="shapeSelect">Choose a Shape</label>
+    <select id="shapeSelect"></select>
 
-    <div id="formArea"><!-- forms will be injected here --></div>
+    <div id="formArea"><!-- forms injected here --></div>
 
     <div id="answerBox" class="hidden">
       <span id="answer"></span>
     </div>
   </div>
 
-  <h2 class="thanks">Thank you 😊</h2>
+  <h2 id="thanks">Thank you 😊</h2>
 
   <script>
+    /* ----------------  Translation data  ---------------- */
+    const translations = {
+      en: {title:"Shape Calculator", subtitle:"- Made fully by Ekaspreet Singh Grover -", chooseShape:"Choose a Shape", selectPrompt:"-- Select Shape --", knownValue:"Known Value (fill one):", unit:"Unit", calculate:"Calculate", base:"Base", height:"Height", length:"Length", width:"Width", side:"Side Length", radius:"Radius", diameter:"Diameter", area:"Area", circumference:"Circumference", perimeter:"Perimeter", answers:"Answers:", thank:"Thank you 😊", shape_circle:"Circle", shape_triangle:"Triangle", shape_rectangle:"Rectangle", shape_square:"Square", shape_parallelogram:"Parallelogram"},
+      fr: {title:"Calculateur de Formes", subtitle:"- Réalisé par Ekaspreet Singh Grover -", chooseShape:"Choisissez une forme", selectPrompt:"-- Sélectionner forme --", knownValue:"Valeur connue (en remplir une):", unit:"Unité", calculate:"Calculer", base:"Base", height:"Hauteur", length:"Longueur", width:"Largeur", side:"Côté", radius:"Rayon", diameter:"Diamètre", area:"Aire", circumference:"Circonférence", perimeter:"Périmètre", answers:"Réponses:", thank:"Merci 😊", shape_circle:"Cercle", shape_triangle:"Triangle", shape_rectangle:"Rectangle", shape_square:"Carré", shape_parallelogramme:"Parallélogramme", shape_parallelogram:"Parallélogramme"},
+      it: {title:"Calcolatore di Forme", subtitle:"- Realizzato da Ekaspreet Singh Grover -", chooseShape:"Scegli una forma", selectPrompt:"-- Seleziona forma --", knownValue:"Valore noto (compila uno):", unit:"Unità", calculate:"Calcola", base:"Base", height:"Altezza", length:"Lunghezza", width:"Larghezza", side:"Lato", radius:"Raggio", diameter:"Diametro", area:"Area", circumference:"Circonferenza", perimeter:"Perimetro", answers:"Risposte:", thank:"Grazie 😊", shape_circle:"Cerchio", shape_triangle:"Triangolo", shape_rectangle:"Rettangolo", shape_square:"Quadrato", shape_parallelogram:"Parallelogramma"},
+      pa: {title:"ਆਕਾਰ ਕੈਲਕੂਲੇਟਰ", subtitle:"- ਏਕਸਪ੍ਰੀਤ ਸਿੰਘ ਗਰੋਵਰ ਵੱਲੋਂ ਬਣਾਇਆ -", chooseShape:"ਆਕਾਰ ਚੁਣੋ", selectPrompt:"-- ਆਕਾਰ ਚੁਣੋ --", knownValue:"ਜਾਣਿਆ ਮੁੱਲ (ਇੱਕ ਭਰੋ):", unit:"ਇਕਾਈ", calculate:"ਗਣਨਾ ਕਰੋ", base:"ਅਧਾਰ", height:"ਉਚਾਈ", length:"ਲੰਬਾਈ", width:"ਚੌੜਾਈ", side:"ਭੁੱਜਾ", radius:"ਤ੍ਰਿਜਿਆ", diameter:"ਵਿਆਸ", area:"ਖੇਤਰਫਲ", circumference:"ਪਰਿਧੀ", perimeter:"ਪਰिमਾਪ", answers:"ਜਵਾਬ:", thank:"ਧੰਨਵਾਦ 😊", shape_circle:"ਵਰਤੋਲ", shape_triangle:"ਤਰਭੁਜ", shape_rectangle:"ਆਇਤ", shape_square:"ਵਰਗ", shape_parallelogram:"ਸਮਤਰਭੁਜ"},
+      hi: {title:"आकार कैलकुलेटर", subtitle:"- एकसप्रीत सिंह ग्रोवर द्वारा बनाया गया -", chooseShape:"आकार चुनें", selectPrompt:"-- आकार चुनें --", knownValue:"ज्ञात मान (एक भरें):", unit:"इकाई", calculate:"गणना करें", base:"आधार", height:"ऊँचाई", length:"लम्बाई", width:"चौड़ाई", side:"भुजा", radius:"त्रिज्या", diameter:"व्यास", area:"क्षेत्रफल", circumference:"परिधि", perimeter:"परिमाप", answers:"उत्तर:", thank:"धन्यवाद 😊", shape_circle:"वृत्त", shape_triangle:"त्रिभुज", shape_rectangle:"आयत", shape_square:"वर्ग", shape_parallelogram:"समांतर चतुर्भुज"},
+      de: {title:"Formrechner", subtitle:"- Erstellt von Ekaspreet Singh Grover -", chooseShape:"Wähle eine Form", selectPrompt:"-- Form wählen --", knownValue:"Bekannter Wert (einen ausfüllen):", unit:"Einheit", calculate:"Berechnen", base:"Grundlinie", height:"Höhe", length:"Länge", width:"Breite", side:"Seitenlänge", radius:"Radius", diameter:"Durchmesser", area:"Fläche", circumference:"Umfang", perimeter:"Umfang", answers:"Antworten:", thank:"Danke 😊", shape_circle:"Kreis", shape_triangle:"Dreieck", shape_rectangle:"Rechteck", shape_square:"Quadrat", shape_parallelogram:"Parallelogramm"},
+      es: {title:"Calculadora de Figuras", subtitle:"- Hecho por Ekaspreet Singh Grover -", chooseShape:"Elige una figura", selectPrompt:"-- Seleccionar figura --", knownValue:"Valor conocido (rellena uno):", unit:"Unidad", calculate:"Calcular", base:"Base", height:"Altura", length:"Longitud", width:"Ancho", side:"Lado", radius:"Radio", diameter:"Diámetro", area:"Área", circumference:"Circunferencia", perimeter:"Perímetro", answers:"Respuestas:", thank:"Gracias 😊", shape_circle:"Círculo", shape_triangle:"Triángulo", shape_rectangle:"Rectángulo", shape_square:"Cuadrado", shape_parallelogram:"Paralelogramo"},
+      ko: {title:"도형 계산기", subtitle:"- Ekaspreet Singh Grover 제작 -", chooseShape:"도형 선택", selectPrompt:"-- 도형 선택 --", knownValue:"알려진 값 (하나 입력):", unit:"단위", calculate:"계산", base:"밑변", height:"높이", length:"길이", width:"너비", side:"변 길이", radius:"반지름", diameter:"지름", area:"넓이", circumference:"둘레", perimeter:"둘레", answers:"답:", thank:"감사합니다 😊", shape_circle:"원", shape_triangle:"삼각형", shape_rectangle:"직사각형", shape_square:"정사각형", shape_parallelogram:"평행사변형"},
+      ja: {title:"図形計算機", subtitle:"- Ekaspreet Singh Grover 作 -", chooseShape:"図形を選択", selectPrompt:"-- 図形を選択 --", knownValue:"既知の値 (一つ入力):", unit:"単位", calculate:"計算", base:"底辺", height:"高さ", length:"長さ", width:"幅", side:"辺の長さ", radius:"半径", diameter:"直径", area:"面積", circumference:"円周", perimeter:"周囲長", answers:"答え:", thank:"ありがとう 😊", shape_circle:"円", shape_triangle:"三角形", shape_rectangle:"長方形", shape_square:"正方形", shape_parallelogram:"平行四辺形"},
+      "zh-CN": {title:"形状计算器", subtitle:"- 由 Ekaspreet Singh Grover 制作 -", chooseShape:"选择形状", selectPrompt:"-- 选择形状 --", knownValue:"已知数值（填一个）：", unit:"单位", calculate:"计算", base:"底", height:"高", length:"长", width:"宽", side:"边长", radius:"半径", diameter:"直径", area:"面积", circumference:"周长", perimeter:"周长", answers:"答案：", thank:"谢谢 😊", shape_circle:"圆形", shape_triangle:"三角形", shape_rectangle:"长方形", shape_square:"正方形", shape_parallelogram:"平行四边形"},
+      "zh-HK": {title:"形狀計算器", subtitle:"- 由 Ekaspreet Singh Grover 製作 -", chooseShape:"選擇形狀", selectPrompt:"-- 選擇形狀 --", knownValue:"已知數值（填一個）：", unit:"單位", calculate:"計算", base:"底", height:"高", length:"長", width:"闊", side:"邊長", radius:"半徑", diameter:"直徑", area:"面積", circumference:"周長", perimeter:"周界", answers:"答案：", thank:"多謝 😊", shape_circle:"圓形", shape_triangle:"三角形", shape_rectangle:"長方形", shape_square:"正方形", shape_parallelogram:"平行四邊形"}
+    };
+
+    let currentLang = 'en';
+
+    const langSelect = document.getElementById('langSelect');
+    const titleEl = document.getElementById('title');
+    const subtitleEl = document.getElementById('subtitle');
+    const chooseShapeLabel = document.getElementById('chooseShapeLabel');
     const shapeSelect = document.getElementById('shapeSelect');
     const formArea = document.getElementById('formArea');
     const answerBox = document.getElementById('answerBox');
     const answerEl = document.getElementById('answer');
+    const thanksEl = document.getElementById('thanks');
+
+    langSelect.addEventListener('change', () => {
+      currentLang = langSelect.value;
+      applyTranslations();
+      renderForm();
+    });
+
+    function applyTranslations() {
+      const t = translations[currentLang];
+      titleEl.textContent = t.title;
+      subtitleEl.textContent = t.subtitle;
+      chooseShapeLabel.textContent = t.chooseShape;
+      thanksEl.textContent = t.thank;
+
+      // rebuild shape select
+      const previous = shapeSelect.value;
+      shapeSelect.innerHTML = `<option value="">${t.selectPrompt}</option>`+
+        `<option value="circle">${t.shape_circle}</option>`+
+        `<option value="triangle">${t.shape_triangle}</option>`+
+        `<option value="rectangle">${t.shape_rectangle}</option>`+
+        `<option value="square">${t.shape_square}</option>`+
+        `<option value="parallelogram">${t.shape_parallelogram}</option>`;
+      shapeSelect.value = previous;
+    }
 
     shapeSelect.addEventListener('change', renderForm);
 
@@ -139,57 +204,59 @@
       clearForm();
       const shape = shapeSelect.value;
       if (!shape) return;
+      const t = translations[currentLang];
 
+      const unitSelect = unitSelectHtml();
       let html = '';
       switch (shape) {
         case 'circle':
           html = `
-            <label>Known Value (fill one):</label>
-            <input type="number" id="radius" placeholder="Radius" step="any" />
-            <input type="number" id="diameter" placeholder="Diameter" step="any" />
-            <input type="number" id="area" placeholder="Area" step="any" />
-            <input type="number" id="circumference" placeholder="Circumference" step="any" />
-            <label for="unit">Unit</label>
-            ${unitSelectHtml()}
-            <button type="button" onclick="calcCircle()">Calculate</button>`;
+            <label>${t.knownValue}</label>
+            <input type="number" id="radius" placeholder="${t.radius}" step="any" />
+            <input type="number" id="diameter" placeholder="${t.diameter}" step="any" />
+            <input type="number" id="area" placeholder="${t.area}" step="any" />
+            <input type="number" id="circumference" placeholder="${t.circumference}" step="any" />
+            <label>${t.unit}</label>
+            ${unitSelect}
+            <button type="button" onclick="calcCircle()">${t.calculate}</button>`;
           break;
         case 'triangle':
           html = `
-            <label for="base">Base</label>
+            <label for="base">${t.base}</label>
             <input type="number" id="base" step="any" />
-            <label for="height">Height</label>
+            <label for="height">${t.height}</label>
             <input type="number" id="height" step="any" />
-            <label for="unit">Unit</label>
-            ${unitSelectHtml()}
-            <button type="button" onclick="calcTriangle()">Calculate</button>`;
+            <label>${t.unit}</label>
+            ${unitSelect}
+            <button type="button" onclick="calcTriangle()">${t.calculate}</button>`;
           break;
         case 'rectangle':
           html = `
-            <label for="length">Length</label>
+            <label for="length">${t.length}</label>
             <input type="number" id="length" step="any" />
-            <label for="width">Width</label>
+            <label for="width">${t.width}</label>
             <input type="number" id="width" step="any" />
-            <label for="unit">Unit</label>
-            ${unitSelectHtml()}
-            <button type="button" onclick="calcRectangle()">Calculate</button>`;
+            <label>${t.unit}</label>
+            ${unitSelect}
+            <button type="button" onclick="calcRectangle()">${t.calculate}</button>`;
           break;
         case 'square':
           html = `
-            <label for="side">Side Length</label>
+            <label for="side">${t.side}</label>
             <input type="number" id="side" step="any" />
-            <label for="unit">Unit</label>
-            ${unitSelectHtml()}
-            <button type="button" onclick="calcSquare()">Calculate</button>`;
+            <label>${t.unit}</label>
+            ${unitSelect}
+            <button type="button" onclick="calcSquare()">${t.calculate}</button>`;
           break;
         case 'parallelogram':
           html = `
-            <label for="baseP">Base</label>
+            <label for="baseP">${t.base}</label>
             <input type="number" id="baseP" step="any" />
-            <label for="heightP">Height</label>
+            <label for="heightP">${t.height}</label>
             <input type="number" id="heightP" step="any" />
-            <label for="unit">Unit</label>
-            ${unitSelectHtml()}
-            <button type="button" onclick="calcParallelogram()">Calculate</button>`;
+            <label>${t.unit}</label>
+            ${unitSelect}
+            <button type="button" onclick="calcParallelogram()">${t.calculate}</button>`;
           break;
       }
       formArea.innerHTML = html;
@@ -208,9 +275,9 @@
       </select>`;
     }
 
-    /* Calculation functions */
-
+    /* -------- Calculation functions (use translations) -------- */
     function calcCircle() {
+      const t = translations[currentLang];
       const unit = document.getElementById('unit').value;
       const r = parseFloat(document.getElementById('radius').value);
       const d = parseFloat(document.getElementById('diameter').value);
@@ -221,59 +288,64 @@
       if (!radius && d) radius = d / 2;
       if (!radius && a) radius = Math.sqrt(a / Math.PI);
       if (!radius && c) radius = c / (2 * Math.PI);
-      if (!radius) {
-        alert('Please enter at least one number.');
-        return;
-      }
+      if (!radius) { alert(t.knownValue); return; }
+
       const diameter = radius * 2;
       const area = Math.PI * radius * radius;
       const circum = 2 * Math.PI * radius;
 
-      const msg = `Radius: ${radius.toFixed(2)} ${unit}  |  Diameter: ${diameter.toFixed(2)} ${unit}  |  Area: ${area.toFixed(2)} ${unit}²  |  Circumference: ${circum.toFixed(2)} ${unit}`;
+      const msg = `${t.radius}: ${radius.toFixed(2)} ${unit}  |  ${t.diameter}: ${diameter.toFixed(2)} ${unit}  |  ${t.area}: ${area.toFixed(2)} ${unit}²  |  ${t.circumference}: ${circum.toFixed(2)} ${unit}`;
       showAnswer(msg);
     }
 
     function calcTriangle() {
+      const t = translations[currentLang];
       const unit = document.getElementById('unit').value;
       const base = parseFloat(document.getElementById('base').value);
       const height = parseFloat(document.getElementById('height').value);
-      if (isNaN(base) || isNaN(height)) return alert('Fill both numbers');
+      if (isNaN(base) || isNaN(height)) return alert(t.knownValue);
       const area = 0.5 * base * height;
-      showAnswer(`Area: ${area.toFixed(2)} ${unit}²`);
+      showAnswer(`${t.area}: ${area.toFixed(2)} ${unit}²`);
     }
 
     function calcRectangle() {
+      const t = translations[currentLang];
       const unit = document.getElementById('unit').value;
       const length = parseFloat(document.getElementById('length').value);
       const width = parseFloat(document.getElementById('width').value);
-      if (isNaN(length) || isNaN(width)) return alert('Fill both numbers');
+      if (isNaN(length) || isNaN(width)) return alert(t.knownValue);
       const area = length * width;
       const peri = 2 * (length + width);
-      showAnswer(`Area: ${area.toFixed(2)} ${unit}²  |  Perimeter: ${peri.toFixed(2)} ${unit}`);
+      showAnswer(`${t.area}: ${area.toFixed(2)} ${unit}²  |  ${t.perimeter}: ${peri.toFixed(2)} ${unit}`);
     }
 
     function calcSquare() {
+      const t = translations[currentLang];
       const unit = document.getElementById('unit').value;
       const side = parseFloat(document.getElementById('side').value);
-      if (isNaN(side)) return alert('Enter side length');
+      if (isNaN(side)) return alert(t.knownValue);
       const area = side * side;
       const peri = 4 * side;
-      showAnswer(`Area: ${area.toFixed(2)} ${unit}²  |  Perimeter: ${peri.toFixed(2)} ${unit}`);
+      showAnswer(`${t.area}: ${area.toFixed(2)} ${unit}²  |  ${t.perimeter}: ${peri.toFixed(2)} ${unit}`);
     }
 
     function calcParallelogram() {
+      const t = translations[currentLang];
       const unit = document.getElementById('unit').value;
       const baseP = parseFloat(document.getElementById('baseP').value);
       const heightP = parseFloat(document.getElementById('heightP').value);
-      if (isNaN(baseP) || isNaN(heightP)) return alert('Fill both numbers');
+      if (isNaN(baseP) || isNaN(heightP)) return alert(t.knownValue);
       const area = baseP * heightP;
-      showAnswer(`Area: ${area.toFixed(2)} ${unit}²`);
+      showAnswer(`${t.area}: ${area.toFixed(2)} ${unit}²`);
     }
 
     function showAnswer(text) {
       answerEl.textContent = text;
       answerBox.classList.remove('hidden');
     }
+
+    // Initial setup
+    applyTranslations();
   </script>
 </body>
 </html>
